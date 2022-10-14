@@ -5,8 +5,8 @@
 call plug#begin()
 
 Plug 'https://github.com/bling/vim-airline'
-#Plug 'https://github.com/Shougo/deoplete.nvim.git', { 'do': ':UpdateRemotePlugins' }
-#Plug 'zchee/deoplete-jedi'
+"Plug 'https://github.com/Shougo/deoplete.nvim.git', { 'do': ':UpdateRemotePlugins' }
+"Plug 'zchee/deoplete-jedi'
 Plug 'arcticicestudio/nord-vim'
 "Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 "Plug 'isRuslan/vim-es6'
@@ -20,10 +20,10 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 if has('nvim')
 
     "" Enable deoplete autocomplete
-    #let g:deoplete#enable_at_startup = 1
+    "let g:deoplete#enable_at_startup = 1
 
     "" Disable the preview window
-    #set completeopt-=preview
+    "set completeopt-=preview
 endif
 
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
