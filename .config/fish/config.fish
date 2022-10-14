@@ -22,5 +22,5 @@ fish_ssh_agent
 
 # aliases
 alias vim "nvim"
-alias ls "gls --color=auto"
+alias ls "ls --color=auto"
 alias dotfiles "git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
