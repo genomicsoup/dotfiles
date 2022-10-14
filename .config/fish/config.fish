@@ -9,7 +9,7 @@ direnv hook fish | source
 
 # Path variables
 set PATH $HOME/.local/bin $PATH
-set PATH $HOME/edirect $PATH
+set PATH $HOME/.local/share/poetry/bin $PATH
 set PATH $HOME/.cargo/bin $PATH
 set PATH $HOME/.local/bin/ncbi $PATH
 
