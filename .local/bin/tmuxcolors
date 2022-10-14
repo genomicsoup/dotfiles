@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# file: tmuxcolors
+# desc: Randomly selects a color based on the provided string argument. Used
+#       Used to select semi-random background colors for tmux sessions.
+
+COLORS=(
+    '#4e79a7'
+    '#f28e2c'
+    '#e15759'
+    '#76b7b2'
+    '#59a14f'
+    '#edc949'
+    '#af7aa1'
+    '#ff9ad7'
+    '#8dd3c7'
+    '#66c2a5'
+    '#bebada'
+    '#ccebc5'
+    '#fc8d62'
+    '#8da0cb'
+    '#66c2a5'
+)
+
+function hash_name {
+    index=$(( 0x$(echo -n "$1" | sha1sum | cut -d " " -f 1) % $2 ))
+    echo "${index#-}"
+}
+
+index=$(hash_name $1 ${#COLORS[@]})
+rando=${COLORS[$index]}
+
+echo "$rando"
