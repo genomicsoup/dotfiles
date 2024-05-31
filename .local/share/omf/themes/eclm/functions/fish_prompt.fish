@@ -17,15 +17,18 @@ function fish_prompt
   set -l normal (set_color normal)
 
   if test $last_status = 0
-      set status_indicator "$green✔︎ "
+      set status_indicator "$green＞"
   else
-      set status_indicator "$red✗ "
+      set status_indicator "$red＞"
   end
   set -l cwd $cyan(basename (prompt_pwd))
 
   if [ (_git_branch_name) ]
 
     if test (_git_branch_name) = 'master'
+      set -l git_branch (_git_branch_name)
+      set git_info "$normal ($red$git_branch$normal)"
+    else if test (_git_branch_name) = 'main'
       set -l git_branch (_git_branch_name)
       set git_info "$normal ($red$git_branch$normal)"
     else
@@ -44,5 +47,6 @@ function fish_prompt
     echo The last command took (math "$CMD_DURATION/1000") seconds.
   end
 
-  echo -n -s $status_indicator $cwd $git_info $normal ' '
+  echo -s $cyan [ $cwd ] $git_info $normal
+  echo -n -s $status_indicator $normal
 end
