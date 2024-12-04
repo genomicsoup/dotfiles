@@ -161,7 +161,10 @@ require('telekasten').setup({
 })
 
 --require('github/copilot.vim').setup()
-vim.g.copilot_no_tabe_map = true
+--vim.g.copilot_no_tabe_map = true
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+
 vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- File explorer
@@ -211,6 +214,10 @@ local on_attach = function(client, bufnr)
                 --lsp_formatting(bufnr)
             end,
         })
+    end
+
+    if vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
     -- NOTE: Remember that lua is a real programming language, and as such it is possible
     -- to define small helper and utility functions so you don't have to repeat yourself
@@ -397,7 +404,15 @@ local servers = {
     --},
     -- lua lang server
     lua_ls = {
-        workspace = { checkThirdPart = false },
+        workspace = {
+            checkThirdParty = false,
+            library = {
+                vim.env.RUNTIME
+            }
+        },
+        runtime = {
+            version = 'LuaJIT'
+        },
         telemetry = { enable = false },
     },
     -- python
@@ -420,6 +435,30 @@ local servers = {
     rust_analyzer = {
         checkOnSave = {
             command = 'clippy',
+        },
+        diagnostics = {
+            enable = true,
+        },
+        imports = {
+            granularity = {
+                group = 'module',
+            },
+            prefix = 'self',
+        },
+        cargo = {
+            buildScripts = {
+                enable = true,
+            },
+        },
+        procMacro = {
+            enable = true,
+        },
+        inlayHints = {
+            enable = true,
+            typeHints = true,
+            chainingHints = true,
+            parameterHints = true,
+            otherHints = true,
         },
     }
 }
@@ -444,15 +483,17 @@ local luasnip = require 'luasnip'
 
 luasnip.config.setup {}
 
-cmp.setup {
+cmp.setup({
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)
         end,
     },
-    mapping = cmp.mapping.preset.insert {
+    mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-l>'] = cmp.mapping.select_next_item(),
+        ['<C-s>'] = cmp.mapping.select_prev_item(),
         ['<C-Space>'] = cmp.mapping.complete {},
         ['<CR>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
@@ -476,17 +517,18 @@ cmp.setup {
                 fallback()
             end
         end, { 'i', 's' }),
-    },
-    sources = {
+    }),
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-    },
-}
-
+        { name = 'path' },
+        { name = 'buffer' },
+    }),
+})
 -- [[ vim options ]] --
 
 -- Syntax highlight is on
-vim.o.syntax = true
+vim.o.syntax = 'on'
 
 -- Line numbers are on
 vim.o.number = true
@@ -540,7 +582,7 @@ vim.o.clipboard = 'unnamedplus'
 --vim.o.background = 'dark'
 
 vim.o.termguicolors = true
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menu,menuone,noselect'
 vim.o.copyindent = true
 
 -- Cursor updates
