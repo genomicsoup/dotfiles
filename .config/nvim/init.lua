@@ -69,7 +69,7 @@ require('lazy').setup({
         opts = {
             options = {
                 icons_enabled = false,
-                theme = 'onenord',
+                theme = 'lackluster',
                 component_separators = '|',
                 section_separators = '',
             }
@@ -146,14 +146,11 @@ require('lazy').setup({
 local lackluster = require('lackluster')
 local lc = lackluster.color
 
---lackluster.setup({
---    tweak_syntax = {
---        type = lc.green,
---        builtin = lc.green,
---        keyword = lc.green,
---        string = 'default',
---    }
---})
+lackluster.setup({
+    tweak_syntax = {
+        comment = lc.gray4,
+    }
+})
 
 vim.cmd.colorscheme('lackluster-mint')
 
